@@ -189,7 +189,6 @@ uint8_t mmc::initialize(uint8_t speed)
 		for (uint8_t i = 0; i < 3; i++) spiRec();
 	}
 	sbi(P_SS, B_SS);
-
 	return setSckRate(speed);;
 
 fail:

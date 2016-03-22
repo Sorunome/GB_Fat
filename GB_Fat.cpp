@@ -25,8 +25,7 @@ uint8_t GB_Fat::init(uint8_t *buffer,uint8_t speed){
 			
 			GB_BS.fat1Start = MBR_part1Start + uint16_t(buffer[0x0E])+(uint16_t(buffer[0x0F])<<8); // firstDirSector
 			
-			firstDirSector = GB_BS.fat1Start + 
-				uint32_t(buffer[0x1C])+(uint32_t(buffer[0x1D])<<8)+(uint32_t(buffer[0x1E])<<16)+(uint32_t(buffer[0x1F])<<24); // hidden sectors
+			firstDirSector = GB_BS.fat1Start;
 			
 			firstDirSector += uint32_t(buffer[0x10]) * // fat copies
 				(uint32_t(buffer[0x16])+(uint32_t(buffer[0x17])<<8)); // sectors per fat
