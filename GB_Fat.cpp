@@ -117,14 +117,12 @@ void GB_File::read(uint8_t *buffer,uint32_t start,uint16_t size){
 	uint16_t readCluster = startCluster;
 	uint8_t sectorOffset = -1;
 	uint16_t real_size;
-	uint8_t buf[2];
 	while(start >= 512){
 		start -= 512;
 		sectorOffset++;
 		if(sectorOffset >= GB_BS.sectorsPerCluster){
 			sectorOffset = 0;
-			mmc::readSector(buf,GB_BS.fat1Start + ((readCluster >> 8) & 0xFF),(readCluster % 256)*2,2);
-			readCluster = buf[0] + (buf[1]<<8);
+			mmc::readSector((uint8_t*)&readCluster,GB_BS.fat1Start + ((readCluster >> 8) & 0xFF),(readCluster % 256)*2,2);
 			if(readCluster == 0xffff){
 				return;
 			}
@@ -134,8 +132,7 @@ void GB_File::read(uint8_t *buffer,uint32_t start,uint16_t size){
 		sectorOffset++;
 		if(sectorOffset >= GB_BS.sectorsPerCluster){
 			sectorOffset = 0;
-			mmc::readSector(buf,GB_BS.fat1Start + ((readCluster >> 8) & 0xFF),(readCluster % 256)*2,2);
-			readCluster = buf[0] + (buf[1]<<8);
+			mmc::readSector((uint8_t*)&readCluster,GB_BS.fat1Start + ((readCluster >> 8) & 0xFF),(readCluster % 256)*2,2);
 			if(readCluster == 0xffff){
 				return;
 			}
